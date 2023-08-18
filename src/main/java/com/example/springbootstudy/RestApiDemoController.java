@@ -1,17 +1,19 @@
 package com.example.springbootstudy;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class RestApiDemoController {
-    private final List<Coffee> coffees = new ArrayList<>();
+@RequestMapping("/coffees")
+class RestApiDemoController {
+    private final CoffeeRepository coffeeRepository;
 
-    public RestApiDemoController() {
-        coffees.addAll(List.of(
+    public RestApiDemoController(CoffeeRepository coffeeRepository) {
+        this.coffeeRepository = coffeeRepository;
+        this.coffeeRepository.saveAll(List.of(
                 new Coffee("Cafe cerez"),
                 new Coffee("Cafe Ganador"),
                 new Coffee("Cafe Lareno"),
@@ -19,20 +21,18 @@ public class RestApiDemoController {
         ));
     }
 
-    @RequestMapping(value = "/coffees", method = RequestMethod.GET)
+    @GetMapping
     Iterable<Coffee> getCoffees() {
-        return coffees;
+        return coffeeRepository.findAll();
     }
 
-    @GetMapping("/coffes/{id}")
+    @GetMapping("/{id}")
     Optional<Coffee> getCoffeeById(@PathVariable String id) {
-        for(Coffee c: coffees) {
-            if(c.getId().equals(id)) {
-                return Optional.of(c); // Optional is not surely null, if it is null occur error
-            }
-        }
-
-        return Optional.empty(); // Optional.empty;
+        return coffeeRepository.findById(id);
     }
 
+    @PostMapping
+    Coffee postCoffee(@RequestBody Coffee coffee) {
+        return coffeeRepository.save(coffee);
+    }
 }
