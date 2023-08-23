@@ -1,10 +1,10 @@
-package com.example.springbootstudy;
+package com.example.springbootstudy.dto;
 
 import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-class Coffee {
+public class Coffee {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)

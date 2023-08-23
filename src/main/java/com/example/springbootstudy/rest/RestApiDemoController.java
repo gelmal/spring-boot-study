@@ -1,6 +1,7 @@
-package com.example.springbootstudy;
+package com.example.springbootstudy.rest;
 
-import org.springframework.http.ResponseEntity;
+import com.example.springbootstudy.dto.Coffee;
+import com.example.springbootstudy.CoffeeRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
